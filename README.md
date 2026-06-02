@@ -5,11 +5,11 @@
 DrugMesh ingests ten messy public drug databases, resolves which records refer to the *same*
 drug despite missing identifiers and name variants, flags inconsistent/bad records with
 confidence scores, and exposes an auditable reason for every decision. It produces a unified
-cross-reference table — `drug-mappings.tsv` — mapping each drug across DrugBank, TTD, PubChem,
+cross-reference table `drug-mappings.tsv`, mapping each drug across DrugBank, TTD, PubChem,
 ChEMBL, ZINC, ChEBI, KEGG, BindingDB, UMLS and STITCH.
 
-The engineering problem at its core — *reconciling identifiers for the same real-world entity
-across dirty, inconsistent sources* — **is entity resolution**, the same problem that has to be
+The engineering problem at its core is *reconciling identifiers for the same real-world entity
+across dirty, inconsistent sources* : **is entity resolution**, the same problem that has to be
 solved to clean provider directories, payer rosters, and other healthcare master data.
 
 > DrugMesh is a Scala/Apache Spark re-implementation and significant extension of the
@@ -24,7 +24,7 @@ solved to clean provider directories, payer rosters, and other healthcare master
   `Dataset`/DataFrame joins (broadcast joins for small dimension tables, Catalyst + Adaptive
   Query Execution for skew) takes it from a single-JVM, API-bound script to a distributed job.
 - **Scala is Spark's native language.** Target is **Scala 2.13 + Spark 3.5 LTS** (the build
-  also validates against Spark 4.0 in CI; both are Scala 2.13 — Spark dropped 2.12, and Spark
+  also validates against Spark 4.0 in CI; both are Scala 2.13 , Spark dropped 2.12, and Spark
   application code does not run on Scala 3).
 - **Typed, testable transformations.** Each enrichment pass is a pure
   `Dataset[DrugEntry] => Dataset[DrugEntry]`, composed in a configured DAG instead of the
