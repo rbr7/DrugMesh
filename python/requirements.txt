@@ -1,0 +1,6 @@
+# Snorkel weak-supervision labeling step (polyglot boundary with the Scala/Spark pipeline).
+snorkel==0.10.0
+pandas>=2.0,<3.0
+pyarrow>=15.0
+numpy>=1.24,<2.0
+scikit-learn>=1.3

@@ -1,0 +1,26 @@
+DrugMesh
+Copyright 2026 The DrugMesh Authors
+
+This product includes software derived in concept from the drug_id_mapping
+toolkit developed at NCSR "Demokritos":
+
+    drug_id_mapping — NCSR Demokritos module
+    Copyright 2021 Fotis Aisopos
+    Licensed under the Apache License, Version 2.0.
+    https://github.com/iit-Demokritos/drug_id_mapping
+
+DrugMesh is an independent re-implementation in Scala/Apache Spark with added
+machine-learning and text-mining components. It reuses the public column
+contract of the original `drug-mappings.tsv` dataset.
+
+If you use the resulting drug-mappings dataset in your work, please cite:
+
+    Aisopos, F., Paliouras, G. Comparing methods for drug-gene interaction
+    prediction on the biomedical literature knowledge graph: performance
+    versus explainability. BMC Bioinformatics 24, 272 (2023).
+    https://doi.org/10.1186/s12859-023-05373-2
+
+This product also relies on third-party open-source software, each under its
+own license, including Apache Spark, Spark NLP (John Snow Labs), the LinkedIn
+isolation-forest library, Elasticsearch Hadoop, sttp client, Circe, Cats /
+Cats-Effect, PureConfig and scala-xml.
