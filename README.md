@@ -5,11 +5,11 @@
 DrugMesh ingests ten messy public drug databases, resolves which records refer to the *same*
 drug despite missing identifiers and name variants, flags inconsistent/bad records with
 confidence scores, and exposes an auditable reason for every decision. It produces a unified
-cross-reference table — `drug-mappings.tsv` — mapping each drug across DrugBank, TTD, PubChem,
+cross-reference table `drug-mappings.tsv`, mapping each drug across DrugBank, TTD, PubChem,
 ChEMBL, ZINC, ChEBI, KEGG, BindingDB, UMLS and STITCH.
 
-The engineering problem at its core — *reconciling identifiers for the same real-world entity
-across dirty, inconsistent sources* — **is entity resolution**, the same problem that has to be
+The engineering problem at its core is *reconciling identifiers for the same real-world entity
+across dirty, inconsistent sources* : **is entity resolution**, the same problem that has to be
 solved to clean provider directories, payer rosters, and other healthcare master data.
 
 > DrugMesh is a Scala/Apache Spark re-implementation and significant extension of the
@@ -24,7 +24,7 @@ solved to clean provider directories, payer rosters, and other healthcare master
   `Dataset`/DataFrame joins (broadcast joins for small dimension tables, Catalyst + Adaptive
   Query Execution for skew) takes it from a single-JVM, API-bound script to a distributed job.
 - **Scala is Spark's native language.** Target is **Scala 2.13 + Spark 3.5 LTS** (the build
-  also validates against Spark 4.0 in CI; both are Scala 2.13 — Spark dropped 2.12, and Spark
+  also validates against Spark 4.0 in CI; both are Scala 2.13 , Spark dropped 2.12, and Spark
   application code does not run on Scala 3).
 - **Typed, testable transformations.** Each enrichment pass is a pure
   `Dataset[DrugEntry] => Dataset[DrugEntry]`, composed in a configured DAG instead of the
@@ -58,20 +58,20 @@ solved to clean provider directories, payer rosters, and other healthcare master
 
 ## The six ML / text-mining extensions
 
-1. **Biomedical NER** (`ml.ner`) — mine chemical/drug mentions from DrugBank descriptions and
+1. **Biomedical NER** (`ml.ner`) : mine chemical/drug mentions from DrugBank descriptions and
    abstracts with Spark NLP, natively at Spark scale.
-2. **Entity resolution** (`ml.entityres`) — the headline capability. Blocking (normalized-name
+2. **Entity resolution** (`ml.entityres`) : the headline capability. Blocking (normalized-name
    prefix + InChIKey skeleton) → comparison features (Jaro-Winkler, Levenshtein, token Jaccard,
    shared CAS/InChIKey/CID) → a **Fellegi-Sunter** probabilistic matcher whose per-field match
    weights *are* the explanation, plus an optional MLlib **GBT** matcher trained on weak labels.
-3. **Weak supervision** (`python/snorkel_labeling.py`) — Snorkel labeling functions + `LabelModel`
+3. **Weak supervision** (`python/snorkel_labeling.py`) : Snorkel labeling functions + `LabelModel`
    turn heuristics into probabilistic labels with no ground truth, emitted as Parquet for the GBT.
-4. **Anomaly detection** (`ml.anomaly`) — LinkedIn's distributed **Isolation Forest** (Spark/Scala
+4. **Anomaly detection** (`ml.anomaly`) : LinkedIn's distributed **Isolation Forest** (Spark/Scala
    native) scores each row on data-quality signals (invalid CAS checksum, malformed ids, charset
    outliers) and flags "dirty data" with confidence.
-5. **Search** (`ml.search`) — bulk-index into **Elasticsearch** with fuzzy (`fuzziness: AUTO`),
+5. **Search** (`ml.search`) : bulk-index into **Elasticsearch** with fuzzy (`fuzziness: AUTO`),
    phonetic (metaphone), and autocomplete analyzers for entity-centric drug-name lookup.
-6. **Embeddings** (`ml.embeddings`) — BioBERT / sentence-BERT embeddings (Spark NLP) for semantic
+6. **Embeddings** (`ml.embeddings`) : BioBERT / sentence-BERT embeddings (Spark NLP) for semantic
    candidate generation in ER and RxNorm/SNOMED-style normalization.
 
 ## Explainability
@@ -86,7 +86,7 @@ DB00945 ~ DB13746: MATCH (posterior 0.999, total +33.1 bits) —
 ```
 
 For the discriminative GBT matcher, attach **SHAP** (global, consistent attributions) and
-**LIME** (local, per-prediction). Every score maps to a human-readable reason string —
+**LIME** (local, per-prediction). Every score maps to a human-readable reason string
 the record-level recommendations a non-technical reviewer can audit.
 
 ## Quick start
@@ -136,4 +136,4 @@ contract of the original dataset. If you use the resulting drug-mappings dataset
 > biomedical literature knowledge graph: performance versus explainability.* BMC Bioinformatics
 > 24, 272 (2023). https://doi.org/10.1186/s12859-023-05373-2
 
-Licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+Licensed under the Apache License, Version 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
